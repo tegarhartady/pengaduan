@@ -110,18 +110,310 @@
                 </v-card>
               </v-hover>
             </v-col>
+            <v-col
+              cols="12"
+              sm="4"
+              class="text-center"
+
+            >
+              <v-hover v-slot:default="{ hover }">
+                <v-card
+                  class="card"
+                  shaped
+                  :elevation="hover ? 10 : 4"
+                  :class="{ up: hover }"
+                >
+                  <h1 class="font-weight-regular">Nasabah</h1>
+                  <v-sheet
+                    class="position-relative"
+                    min-height="50"
+                  >
+                    <div class="position-absolute d-flex align-center justify-center w-100 h-100">
+                      <v-btn
+                        color="deep-purple-darken-2"
+                        size="x-large"
+                        @click="dialog = !dialog"
+                      >
+                        Nasabah
+                      </v-btn>
+                    </div>
+                  </v-sheet>
+                </v-card>
+              </v-hover>
+            </v-col>
+            <v-col
+              cols="12"
+              sm="4"
+              class="text-center"
+
+            >
+              <v-hover v-slot:default="{ hover }">
+                <v-card
+                  class="card"
+                  shaped
+                  :elevation="hover ? 10 : 4"
+                  :class="{ up: hover }"
+                >
+                  <h1 class="font-weight-regular">Non Nasabah</h1>
+                  <!-- <h4 class="font-weight-regular subtitle-1">
+                    Non Nasabah
+                  </h4> -->
+                  <v-sheet
+                    class="position-relative"
+                    min-height="50"
+                  >
+                    <div class="position-absolute d-flex align-center justify-center w-100 h-100">
+                      <v-btn
+                        color="deep-purple-darken-2"
+                        size="x-large"
+                        @click="dialog2 = !dialog2"
+                      >
+                        Non Nasabah
+                      </v-btn>
+                    </div>
+                  </v-sheet>
+                </v-card>
+              </v-hover>
+            </v-col>
           </v-row>
         </v-col>
       </v-row>
     </v-container>
     <v-dialog v-model="dialog" max-width="640px">
-      <v-card>
+      <v-card
+        v-if="dialog"
+        append-icon="$close"
+        class="mx-auto"
+        elevation="16"
+        max-width="640"
+        title="Nasabah"
+      >
+        <template v-slot:append>
+          <v-btn icon="$close" variant="text" @click="dialog = false"></v-btn>
+        </template>
+
+        <v-divider></v-divider>
+
+        <div class="py-12 text-center">
+          <v-form ref="form">
+            <v-text-field
+              v-model="nasabah.name.value.value"
+              :counter="10"
+              :error-messages="nasabah.name.errorMessage.value"
+              :rules="[v => !!v || 'Item is required']"
+              label="Nama Lengkap"
+              required
+            ></v-text-field>
+
+            <v-text-field
+              v-model="nasabah.email.value.value"
+              :error-messages="nasabah.email.errorMessage.value"
+              :rules="[v => !!v || 'Item is required']"
+              label="E-mail"
+              required
+            ></v-text-field>
+            
+            <v-text-field
+              v-model="nasabah.phone.value.value"
+              :counter="7"
+              :error-messages="nasabah.phone.errorMessage.value"
+              :rules="[v => !!v || 'Item is required']"
+              label="Nomor HP"
+              required
+            ></v-text-field>
+            
+            <v-text-field
+              v-model="nasabah.norek.value.value"
+              :error-messages="nasabah.norek.errorMessage.value"
+              :rules="[v => !!v || 'Item is required']"
+              label="Nomor Rekening"
+            ></v-text-field>
+
+            <v-btn
+              class="me-4"
+              type="button"
+              @click="aksinya != konsul"
+            >
+              submit
+            </v-btn>
+          </v-form>
+        </div>
+
+        <v-divider></v-divider>
+
+        <div class="pa-4 text-end">
+          <v-btn
+            class="text-none"
+            color="medium-emphasis"
+            min-width="92"
+            variant="outlined"
+            rounded
+            @click="dialog = false"
+          >
+            Close
+          </v-btn>
+        </div>
+      </v-card>
+      <!-- <v-card>
         <youtube
           :video-id="videoId"
           @ready="ready"
           @playing="playing"
         ></youtube>
-      </v-card>
+      </v-card> -->
+    </v-dialog>
+    <v-dialog v-model="dialog2" max-width="640px">
+        <v-card
+          v-if="dialog2"
+          append-icon="$close"
+          class="mx-auto"
+          elevation="16"
+          max-width="640"
+          title="Send a receipt"
+        >
+          <template v-slot:append>
+            <v-btn icon="$close" variant="text" @click="dialog = false"></v-btn>
+          </template>
+
+          <v-divider></v-divider>
+
+          <div class="py-12 text-center">
+            <form ref="form">
+              <v-text-field
+                v-model="nonnasabah.name.value.value"
+                :counter="10"
+                :error-messages="nonnasabah.name.errorMessage.value"
+                label="Nama Lengkap"
+                required
+              ></v-text-field>
+
+              <v-text-field
+                v-model="nonnasabah.email.value.value"
+                :error-messages="nonnasabah.email.errorMessage.value"
+                label="E-mail"
+                required
+              ></v-text-field>
+              
+              <v-text-field
+                v-model="nonnasabah.phone.value.value"
+                :counter="7"
+                :error-messages="nonnasabah.phone.errorMessage.value"
+                label="Nomor HP"
+                required
+              ></v-text-field>
+              
+              <v-text-field
+                v-model="nonnasabah.norek.value.value"
+                :error-messages="nonnasabah.norek.errorMessage.value"
+                label="Nomor Rekening"
+                required
+              ></v-text-field>
+
+              <v-btn
+                class="me-4"
+                type="button"
+                @click="aksinya2"
+              >
+                submit
+              </v-btn>
+            </form>
+          </div>
+
+          <v-divider></v-divider>
+
+          <div class="pa-4 text-end">
+            <v-btn
+              class="text-none"
+              color="medium-emphasis"
+              min-width="92"
+              variant="outlined"
+              rounded
+              @click="dialog2 = false"
+            >
+              Close
+            </v-btn>
+          </div>
+        </v-card>
+    </v-dialog>
+    <v-dialog v-model="konsul" max-width="640px">
+        <v-card
+          v-if="konsul"
+          append-icon="$close"
+          class="mx-auto"
+          elevation="16"
+          max-width="640"
+          title="Send a receipt"
+        >
+          <template v-slot:append>
+            <v-btn icon="$close" variant="text" @click="konsul = false"></v-btn>
+          </template>
+
+          <v-divider></v-divider>
+
+          <div class="py-12 text-center">
+            <form ref="form">
+              <v-text-field
+                v-model="nonnasabah.name.value.value"
+                :counter="10"
+                :error-messages="nonnasabah.name.errorMessage.value"
+                label="Nama Lengkap"
+                required
+              ></v-text-field>
+
+              <v-text-field
+                v-model="nonnasabah.email.value.value"
+                :error-messages="nonnasabah.email.errorMessage.value"
+                label="E-mail"
+                required
+              ></v-text-field>
+              
+              <v-text-field
+                v-model="nonnasabah.phone.value.value"
+                :counter="7"
+                :error-messages="nonnasabah.phone.errorMessage.value"
+                label="Nomor HP"
+                required
+              ></v-text-field>
+              
+              <v-text-field
+                v-model="nonnasabah.norek.value.value"
+                :error-messages="nonnasabah.norek.errorMessage.value"
+                label="Nomor Rekening"
+                required
+              ></v-text-field>
+
+              <v-btn
+                class="me-4"
+                type="button"
+                @click="aksinya2"
+              >
+                submit
+              </v-btn>
+            </form>
+          </div>
+
+          <v-divider></v-divider>
+
+          <div class="pa-4 text-end">
+            <v-btn
+              class="text-none"
+              color="medium-emphasis"
+              min-width="92"
+              variant="outlined"
+              rounded
+              @click="konsul = false"
+            >
+              Close
+            </v-btn>
+          </div>
+        </v-card>
+      <!-- <v-card>
+        <youtube
+          :video-id="videoId"
+          @ready="ready"
+          @playing="playing"
+        ></youtube>
+      </v-card> -->
     </v-dialog>
     <div class="svg-border-waves">
       <img src="~@/assets/img/wave2.svg" />
@@ -130,10 +422,99 @@
 </template>
 
 <script>
+
 export default {
+
   data() {
     return {
+      nasabah: {
+        name: {
+          value: {
+            value: "",
+          },
+          errorMessage: {
+            value: [],
+          },
+        },
+        phone: {
+          value: {
+            value: "",
+          },
+          errorMessage: {
+            value: [],
+          },
+        },
+        select: {
+          value: {
+            value: "",
+          },
+          errorMessage: {
+            value: [],
+          },
+        },
+        email: {
+          value: {
+            value: "",
+          },
+          errorMessage: {
+            value: [],
+          },
+        },
+        norek: {
+          value: {
+            value: "",
+          },
+          errorMessage: {
+            value: [],
+          },
+        },
+      },
+      nonnasabah: {
+        name: {
+          value: {
+            value: "",
+          },
+          errorMessage: {
+            value: [],
+          },
+        },
+        phone: {
+          value: {
+            value: "",
+          },
+          errorMessage: {
+            value: [],
+          },
+        },
+        select: {
+          value: {
+            value: "",
+          },
+          errorMessage: {
+            value: [],
+          },
+        },
+        email: {
+          value: {
+            value: "",
+          },
+          errorMessage: {
+            value: [],
+          },
+        },
+        norek: {
+          value: {
+            value: "",
+          },
+          errorMessage: {
+            value: [],
+          },
+        },
+      },
+      datanya: '',
       dialog: false,
+      dialog2: false,
+      konsul: false,
       videoId: "i8IvvHJssWE",
       features: [
         {
@@ -155,18 +536,21 @@ export default {
     };
   },
   watch: {
-    dialog(value) {
-      if (!value) {
-        this.pause();
-      }
-    },
+    // dialog(value) {
+    //   // if (!value) {
+    //   //   this.pause();
+    //   // }
+    // },
   },
   methods: {
     ready(event) {
-      this.player = event.target;
+      // this.player = event.target;
     },
     playing(event) {
       // The player is playing a video.
+    },
+    subimt() {
+    close();
     },
     change() {
       // when you change the value, the player will also change.
@@ -179,7 +563,65 @@ export default {
       this.player.stopVideo();
     },
     pause() {
-      this.player.pauseVideo();
+      // this.player.pauseVideo();
+    },
+    async aksinya() {
+      // console.log(this.$refs.form.aksinya());
+      // const { valid } = await this.$refs;
+
+      console.log(this.konsul);
+      this.datanya = this.nasabah;
+      
+      // if (valid) alert('Form is valid')
+      console.log(this.datanya);
+    },
+    async validate () {
+      const { valid } = await this.$refs.form.validate()
+
+      if (valid) alert('Form is valid')
+    },
+    reset () {
+      this.$refs.form.reset()
+    },
+    resetValidation () {
+      this.$refs.form.resetValidation()
+    },
+    handleSubmit() {
+      // validate form
+      if (!this.$v.$invalid) {
+        // submit form
+        console.log('Form submitted successfully');
+      } else {
+        this.$v.$touch(); // touch all fields to display error messages
+        console.log('Form has errors, please correct them.');
+      }
+    }
+  },
+  validationSchema: {
+    name (value) {
+      if (value?.length >= 2) return true
+
+      return 'Name needs to be at least 2 characters.'
+    },
+    phone (value) {
+      if (/^[0-9-]{7,}$/.test(value)) return true
+
+      return 'Phone number needs to be at least 7 digits.'
+    },
+    email (value) {
+      if (/^[a-z.-]+@[a-z.-]+\.[a-z]+$/i.test(value)) return true
+
+      return 'Must be a valid e-mail.'
+    },
+    select (value) {
+      if (value) return true
+
+      return 'Select an item.'
+    },
+    checkbox (value) {
+      if (value === '1') return true
+
+      return 'Must be checked.'
     },
   },
 };
