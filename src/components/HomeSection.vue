@@ -195,48 +195,137 @@
         <v-divider></v-divider>
 
         <div class="py-12 text-center">
-          <v-form ref="form">
-            <v-text-field
-              v-model="nasabah.name.value.value"
-              :counter="10"
-              :error-messages="nasabah.name.errorMessage.value"
-              :rules="[v => !!v || 'Item is required']"
-              label="Nama Lengkap"
-              required
-            ></v-text-field>
+          test
+          <v-stepper v-model="e1">
+            <v-stepper-header>
+              <v-stepper-step
+                :complete="e1 > 1"
+                step="1"
+              >
+                Name of step 1
+              </v-stepper-step>
 
-            <v-text-field
-              v-model="nasabah.email.value.value"
-              :error-messages="nasabah.email.errorMessage.value"
-              :rules="[v => !!v || 'Item is required']"
-              label="E-mail"
-              required
-            ></v-text-field>
-            
-            <v-text-field
-              v-model="nasabah.phone.value.value"
-              :counter="7"
-              :error-messages="nasabah.phone.errorMessage.value"
-              :rules="[v => !!v || 'Item is required']"
-              label="Nomor HP"
-              required
-            ></v-text-field>
-            
-            <v-text-field
-              v-model="nasabah.norek.value.value"
-              :error-messages="nasabah.norek.errorMessage.value"
-              :rules="[v => !!v || 'Item is required']"
-              label="Nomor Rekening"
-            ></v-text-field>
+              <v-divider></v-divider>
 
-            <v-btn
-              class="me-4"
-              type="button"
-              @click="aksinya != konsul"
-            >
-              submit
-            </v-btn>
-          </v-form>
+              <v-stepper-step
+                :complete="e1 > 2"
+                step="2"
+              >
+                Name of step 2
+              </v-stepper-step>
+
+              <v-divider></v-divider>
+
+              <v-stepper-step step="3">
+                Name of step 3
+              </v-stepper-step>
+            </v-stepper-header>
+
+            <v-stepper-items>
+              <v-stepper-content step="1">
+                <v-card
+                  class="mb-12"
+                  height="200px"
+                >
+                  <v-form ref="form">
+                    <v-text-field
+                      v-model="nasabah.name.value.value"
+                      :counter="10"
+                      :error-messages="nasabah.name.errorMessage.value"
+                      :rules="[v => !!v || 'Item is required']"
+                      label="Nama Lengkap"
+                      required
+                    ></v-text-field>
+
+                    <v-text-field
+                      v-model="nasabah.email.value.value"
+                      :error-messages="nasabah.email.errorMessage.value"
+                      :rules="[v => !!v || 'Item is required']"
+                      label="E-mail"
+                      required
+                    ></v-text-field>
+                    
+                    <v-text-field
+                      v-model="nasabah.phone.value.value"
+                      :counter="7"
+                      :error-messages="nasabah.phone.errorMessage.value"
+                      :rules="[v => !!v || 'Item is required']"
+                      label="Nomor HP"
+                      required
+                    ></v-text-field>
+                    
+                    <v-text-field
+                      v-model="nasabah.norek.value.value"
+                      :error-messages="nasabah.norek.errorMessage.value"
+                      :rules="[v => !!v || 'Item is required']"
+                      label="Nomor Rekening"
+                    ></v-text-field>
+
+                    <!-- <v-btn
+                      class="me-4"
+                      type="button"
+                      @click="aksinya"
+                    >
+                      submit
+                    </v-btn> -->
+                  </v-form>
+                </v-card>
+                <br>
+                <v-btn
+                  color="primary"
+                  @click="e1 = 2"
+                >
+                  Continue
+                </v-btn>
+
+                <v-btn 
+                  text
+                >
+                  Cancel
+                </v-btn>
+              </v-stepper-content>
+
+              <v-stepper-content step="2">
+                <v-card
+                  class="mb-12"
+                  color="grey lighten-1"
+                  height="200px"
+                ></v-card>
+
+                <v-btn
+                  color="primary"
+                  @click="e1 = 3"
+                >
+                  Continue
+                </v-btn>
+
+                <v-btn 
+                  @click="e1 = 1"
+                >
+                  Cancel
+                </v-btn>
+              </v-stepper-content>
+
+              <v-stepper-content step="3">
+                <v-card
+                  class="mb-12"
+                  color="grey lighten-1"
+                  height="200px"
+                ></v-card>
+
+                <v-btn
+                  color="primary"
+                  @click="e1 = 1"
+                >
+                  Continue
+                </v-btn>
+
+                <v-btn text>
+                  Cancel
+                </v-btn>
+              </v-stepper-content>
+            </v-stepper-items>
+          </v-stepper>
         </div>
 
         <v-divider></v-divider>
@@ -335,86 +424,6 @@
           </div>
         </v-card>
     </v-dialog>
-    <v-dialog v-model="konsul" max-width="640px">
-        <v-card
-          v-if="konsul"
-          append-icon="$close"
-          class="mx-auto"
-          elevation="16"
-          max-width="640"
-          title="Send a receipt"
-        >
-          <template v-slot:append>
-            <v-btn icon="$close" variant="text" @click="konsul = false"></v-btn>
-          </template>
-
-          <v-divider></v-divider>
-
-          <div class="py-12 text-center">
-            <form ref="form">
-              <v-text-field
-                v-model="nonnasabah.name.value.value"
-                :counter="10"
-                :error-messages="nonnasabah.name.errorMessage.value"
-                label="Nama Lengkap"
-                required
-              ></v-text-field>
-
-              <v-text-field
-                v-model="nonnasabah.email.value.value"
-                :error-messages="nonnasabah.email.errorMessage.value"
-                label="E-mail"
-                required
-              ></v-text-field>
-              
-              <v-text-field
-                v-model="nonnasabah.phone.value.value"
-                :counter="7"
-                :error-messages="nonnasabah.phone.errorMessage.value"
-                label="Nomor HP"
-                required
-              ></v-text-field>
-              
-              <v-text-field
-                v-model="nonnasabah.norek.value.value"
-                :error-messages="nonnasabah.norek.errorMessage.value"
-                label="Nomor Rekening"
-                required
-              ></v-text-field>
-
-              <v-btn
-                class="me-4"
-                type="button"
-                @click="aksinya2"
-              >
-                submit
-              </v-btn>
-            </form>
-          </div>
-
-          <v-divider></v-divider>
-
-          <div class="pa-4 text-end">
-            <v-btn
-              class="text-none"
-              color="medium-emphasis"
-              min-width="92"
-              variant="outlined"
-              rounded
-              @click="konsul = false"
-            >
-              Close
-            </v-btn>
-          </div>
-        </v-card>
-      <!-- <v-card>
-        <youtube
-          :video-id="videoId"
-          @ready="ready"
-          @playing="playing"
-        ></youtube>
-      </v-card> -->
-    </v-dialog>
     <div class="svg-border-waves">
       <img src="~@/assets/img/wave2.svg" />
     </div>
@@ -422,7 +431,6 @@
 </template>
 
 <script>
-
 export default {
 
   data() {
@@ -515,6 +523,7 @@ export default {
       dialog: false,
       dialog2: false,
       konsul: false,
+      tab:null,
       videoId: "i8IvvHJssWE",
       features: [
         {
@@ -533,6 +542,7 @@ export default {
           text: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
         },
       ],
+      e1: 1,
     };
   },
   watch: {
@@ -597,33 +607,14 @@ export default {
       }
     }
   },
-  validationSchema: {
-    name (value) {
-      if (value?.length >= 2) return true
-
-      return 'Name needs to be at least 2 characters.'
+  computed: {
+    subtotal () {
+      return this.products.reduce((acc, product) => acc + product.quantity * product.price, 0)
     },
-    phone (value) {
-      if (/^[0-9-]{7,}$/.test(value)) return true
-
-      return 'Phone number needs to be at least 7 digits.'
+    total () {
+      return this.subtotal + Number(this.shipping ?? 0)
     },
-    email (value) {
-      if (/^[a-z.-]+@[a-z.-]+\.[a-z]+$/i.test(value)) return true
-
-      return 'Must be a valid e-mail.'
-    },
-    select (value) {
-      if (value) return true
-
-      return 'Select an item.'
-    },
-    checkbox (value) {
-      if (value === '1') return true
-
-      return 'Must be checked.'
-    },
-  },
+  }
 };
 </script>
 
