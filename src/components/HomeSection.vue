@@ -195,14 +195,13 @@
         <v-divider></v-divider>
 
         <div class="py-12 text-center">
-          test
           <v-stepper v-model="e1">
             <v-stepper-header>
               <v-stepper-step
                 :complete="e1 > 1"
                 step="1"
               >
-                Name of step 1
+                ISI FORM
               </v-stepper-step>
 
               <v-divider></v-divider>
@@ -223,66 +222,63 @@
 
             <v-stepper-items>
               <v-stepper-content step="1">
-                <v-card
-                  class="mb-12"
-                  height="200px"
+                <v-form ref="form"
+                v-model="valid"
+                lazy-validation
                 >
-                  <v-form ref="form">
-                    <v-text-field
-                      v-model="nasabah.name.value.value"
-                      :counter="10"
-                      :error-messages="nasabah.name.errorMessage.value"
-                      :rules="[v => !!v || 'Item is required']"
-                      label="Nama Lengkap"
-                      required
-                    ></v-text-field>
+                  <v-text-field
+                    v-model="nasabah.name.value.value"
+                    :counter="10"
+                    :error-messages="nasabah.name.errorMessage.value"
+                    :rules="[v => !!v || 'Item is required']"
+                    label="Nama Lengkap"
+                    required
+                  ></v-text-field>
 
-                    <v-text-field
-                      v-model="nasabah.email.value.value"
-                      :error-messages="nasabah.email.errorMessage.value"
-                      :rules="[v => !!v || 'Item is required']"
-                      label="E-mail"
-                      required
-                    ></v-text-field>
-                    
-                    <v-text-field
-                      v-model="nasabah.phone.value.value"
-                      :counter="7"
-                      :error-messages="nasabah.phone.errorMessage.value"
-                      :rules="[v => !!v || 'Item is required']"
-                      label="Nomor HP"
-                      required
-                    ></v-text-field>
-                    
-                    <v-text-field
-                      v-model="nasabah.norek.value.value"
-                      :error-messages="nasabah.norek.errorMessage.value"
-                      :rules="[v => !!v || 'Item is required']"
-                      label="Nomor Rekening"
-                    ></v-text-field>
+                  <v-text-field
+                    v-model="nasabah.email.value.value"
+                    :error-messages="nasabah.email.errorMessage.value"
+                    :rules="[v => !!v || 'Item is required']"
+                    label="E-mail"
+                    required
+                  ></v-text-field>
+                  
+                  <v-text-field
+                    v-model="nasabah.phone.value.value"
+                    :counter="7"
+                    :error-messages="nasabah.phone.errorMessage.value"
+                    :rules="[v => !!v || 'Item is required']"
+                    label="Nomor HP"
+                    required
+                  ></v-text-field>
+                  
+                  <v-text-field
+                    v-model="nasabah.norek.value.value"
+                    :error-messages="nasabah.norek.errorMessage.value"
+                    label="Nomor Rekening"
+                  ></v-text-field>
 
-                    <!-- <v-btn
-                      class="me-4"
-                      type="button"
-                      @click="aksinya"
-                    >
-                      submit
-                    </v-btn> -->
-                  </v-form>
-                </v-card>
-                <br>
+                  <!-- <v-btn
+                    class="me-4"
+                    type="button"
+                    @click="aksinya"
+                  >
+                    submit
+                  </v-btn> -->
+                </v-form>
+            
                 <v-btn
                   color="primary"
-                  @click="e1 = 2"
+                  @click="aksinya();validate()"
                 >
                   Continue
                 </v-btn>
 
-                <v-btn 
+                <!-- <v-btn 
                   text
                 >
                   Cancel
-                </v-btn>
+                </v-btn> -->
               </v-stepper-content>
 
               <v-stepper-content step="2">
@@ -524,6 +520,7 @@ export default {
       dialog2: false,
       konsul: false,
       tab:null,
+      valid: true,
       videoId: "i8IvvHJssWE",
       features: [
         {
@@ -605,7 +602,15 @@ export default {
         this.$v.$touch(); // touch all fields to display error messages
         console.log('Form has errors, please correct them.');
       }
-    }
+    },
+    validate () {
+      const data = this.$refs.form.validate()
+      if (data = true) {
+        return e1 = 2;
+      }
+      // console.log(data,'valid');
+      // return data;
+    },
   },
   computed: {
     subtotal () {
